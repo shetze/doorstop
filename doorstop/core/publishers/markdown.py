@@ -27,9 +27,13 @@ class MarkdownPublisher(BasePublisher):
         """Format an external reference in Markdown."""
         if settings.CHECK_REF:
             path, line = item.find_ref()
+
+            if path == '':
+                return ''
+
             path = path.replace("\\", "/")  # always use unix-style paths
             if line:
-                return "> `{p}` (line {line})".format(p=path, line=line)
+                return "> [{p}](`../{p}`) (line {line})".format(p=path, line=line)
             else:
                 return "> `{p}`".format(p=path)
         else:
@@ -41,11 +45,15 @@ class MarkdownPublisher(BasePublisher):
             references = item.find_references()
             text_refs = []
             for ref_item in references:
+                if not ref_item:
+                    continue
                 path, line = ref_item
+                if path == '':
+                    continue
                 path = path.replace("\\", "/")  # always use unix-style paths
 
                 if line:
-                    text_refs.append("> `{p}` (line {line})".format(p=path, line=line))
+                    text_refs.append("> [{p}](`../{p}`) (line {line})\n".format(p=path, line=line))
                 else:
                     text_refs.append("> `{p}`".format(p=path))
 
