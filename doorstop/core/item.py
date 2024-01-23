@@ -736,10 +736,16 @@ class Item(BaseFileObject):  # pylint: disable=R0902
             path = ref_item["path"]
             keyword = ref_item["keyword"] if "keyword" in ref_item else None
 
-            reference = self.reference_finder.find_file_reference(
-                path, self.root, self.tree, self.path, keyword
-            )
-            references.append(reference)
+            if ref_item["type"] == "pattern":
+                reference = self.reference_finder.find_pattern_reference(
+                    path, self.root, self.tree, self.path, keyword
+                )
+                references.extend(reference)
+            else:
+                reference = self.reference_finder.find_file_reference(
+                    path, self.root, self.tree, self.path, keyword
+                )
+                references.append(reference)
         return references
 
     def find_child_links(self, find_all=True):
