@@ -34,9 +34,9 @@ class YamlValidator:
                         )
 
                     ref_type = ref_dict["type"]
-                    if ref_type != "file":
+                    if ref_type != "file" and ref_type != "pattern":
                         raise AttributeError(
-                            "'references' member's 'type' value must be a 'file'"
+                            "'references' member's 'type' value must be 'file' or 'pattern'"
                         )
 
                     ref_path = ref_dict["path"]
