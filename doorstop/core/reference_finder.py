@@ -32,6 +32,7 @@ class ReferenceFinder:
         # Search for the external reference
         log.debug("searching for ref '{}'...".format(ref))
         pattern = r"(\b|\W){}(\b|\W)".format(re.escape(ref))
+        # pattern = r"(\b|\W){}[^A-Za-z0-9.]".format(re.escape(ref))
         log.trace("regex: {}".format(pattern))  # type: ignore
         regex = re.compile(pattern)
         for path, filename, relpath in tree.vcs.paths:
