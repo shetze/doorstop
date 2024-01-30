@@ -60,7 +60,7 @@ class TestItem(unittest.TestCase):
             self.validator.validate_item_yaml(item_dict)
 
         self.assertEqual(
-            "'references' member's 'type' value must be a 'file'",
+            "'references' member's 'type' value must be 'file' or 'pattern'",
             str(context.exception),
         )
 
