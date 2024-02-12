@@ -69,7 +69,7 @@ class TestItem(unittest.TestCase):
     def test_find_ref_error(self):
         """Verify an error occurs when no external reference found."""
         self.item.ref = "not" "found"  # pylint: disable=implicit-str-concat
-        self.assertRaises(DoorstopError, self.item.find_ref)
+        self.assertRaises(DoorstopWarning, self.item.find_ref)
 
     @unittest.skipUnless(os.getenv(ENV), REASON)
     def test_find_references(self):

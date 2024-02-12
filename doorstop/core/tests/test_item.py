@@ -8,7 +8,7 @@ import unittest
 from unittest.mock import MagicMock, Mock, patch
 
 from doorstop import common, settings
-from doorstop.common import DoorstopError
+from doorstop.common import DoorstopError, DoorstopWarning
 from doorstop.core.item import Item, UnknownItem
 from doorstop.core.tests import (
     EMPTY,
@@ -586,13 +586,13 @@ class TestItem(unittest.TestCase):
         self.assertEqual("text.txt", os.path.basename(relpath))
         self.assertEqual(None, line)
 
-    def test_find_ref_error(self):
-        """Verify an error occurs when no external reference found."""
+    def test_find_ref_warning(self):
+        """Verify a warning occurs when no external reference found."""
         self.item.ref = "not" "found"  # pylint: disable=implicit-str-concat
         self.item.tree = Mock()
         self.item.tree.vcs = WorkingCopy(EMPTY)
         # Act and assert
-        self.assertRaises(DoorstopError, self.item.find_ref)
+        self.assertRaises(DoorstopWarning, self.item.find_ref)
 
     def test_find_skip_self(self):
         """Verify reference searches skip the item's file."""
@@ -602,7 +602,7 @@ class TestItem(unittest.TestCase):
         self.item.tree.vcs = WorkingCopy(EMPTY)
         self.item.tree.vcs._path_cache = [(__file__, "filename", "relpath")]
         # Act and assert
-        self.assertRaises(DoorstopError, self.item.find_ref)
+        self.assertRaises(DoorstopWarning, self.item.find_ref)
 
     def test_find_ref_none(self):
         """Verify nothing returned when no external reference is specified."""

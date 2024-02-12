@@ -7,7 +7,7 @@ import os
 import unittest
 from unittest.mock import Mock
 
-from doorstop.common import DoorstopError
+from doorstop.common import DoorstopError, DoorstopWarning
 from doorstop.core.reference_finder import ReferenceFinder
 from doorstop.core.tests import TESTS_ROOT, MockItem, MockSimpleDocument
 from doorstop.core.vcs.mockvcs import WorkingCopy
@@ -85,7 +85,7 @@ class TestReferenceFinder(unittest.TestCase):
         # Act
         reference_finder = ReferenceFinder()
 
-        with self.assertRaises(DoorstopError) as context:
+        with self.assertRaises(DoorstopWarning) as context:
             reference_finder.find_file_reference(item_path, root, tree, item_path)
 
         self.assertTrue("external reference not found" in str(context.exception))
